@@ -23,7 +23,13 @@ const builtinExtensions = {
     ev3: () => require('../extensions/scratch3_ev3'),
     makeymakey: () => require('../extensions/scratch3_makeymakey'),
     boost: () => require('../extensions/scratch3_boost'),
-    gdxfor: () => require('../extensions/scratch3_gdx_for')
+    gdxfor: () => require('../extensions/scratch3_gdx_for'),
+
+    // Custom extentions
+    robot_communication: () => require('../extensions/scratch3_robot_communication'),
+    robot_conditions: () => require('../extensions/scratch3_robot_conditions'),
+    robot_movement: () => require('../extensions/scratch3_robot_movement'),
+    robot_reporters: () => require('../extensions/scratch3_robot_reporters'),
 };
 
 /**
