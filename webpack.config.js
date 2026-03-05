@@ -30,7 +30,11 @@ const webBuilder = new ScratchWebpackConfigBuilder(common)
         },
         resolve: {
             fallback: {
-                Buffer: require.resolve('buffer/')
+                Buffer: require.resolve('buffer/'),
+                path: require.resolve('path-browserify'),
+                crypto: require.resolve('crypto-browserify'),
+                stream: require.resolve("stream-browserify"),
+                vm: false, 
             }
         },
         output: {
