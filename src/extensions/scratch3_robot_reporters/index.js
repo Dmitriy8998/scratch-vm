@@ -29,6 +29,11 @@ class RobotReportsBlocks {
                     text: 'Get distance to obstacle with dropdown',
                 },
                 {
+                    opcode: 'get_distance_to_obstacle_broadcast',
+                    blockType: BlockType.REPORTER,
+                    text: 'Get distance to obstacle with broadcast',
+                },
+                {
                     opcode: 'get_pitch',
                     blockType:  BlockType.REPORTER,
                     text: 'Get pitch reporter',
@@ -68,6 +73,16 @@ class RobotReportsBlocks {
             });
 
             this.runtime.emit('GET_DISTANCE_TO_OBSTACLE_DROPDOWN', Number(args.MODE));
+        });
+    };
+
+    get_distance_to_obstacle_broadcast(args) {
+        return new Promise(resolve => {
+            this.runtime.once('GET_DISTANCE_BROADCAST', (val) => {
+                resolve(val);
+            });
+
+            this.runtime.emit('GET_DISTANCE_TO_OBSTACLE_BROADCAST', args.CHOICE);
         });
     };
 
