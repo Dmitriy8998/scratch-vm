@@ -45,14 +45,14 @@ class RobotConditionsBlocks {
     };
 
     loop (args, util) {
-        if (args.CONDITION === true) {
+        if (args.CONDITION === false) {
             util.startBranch(1, true);
         };
     };
 
     fulfillment_wait (args, util) {
         if (args.CONDITION === true || args.CONDITION === false) {
-            if (args.CONDITION !== true) {
+            if (args.CONDITION === false) {
                 util.yieldTick();
             }
         } else {
