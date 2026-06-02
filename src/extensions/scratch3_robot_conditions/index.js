@@ -19,7 +19,18 @@ class RobotConditionsBlocks {
             name: 'Conditions',
             blocks: [
                 {
-                    opcode: 'loop',
+                    opcode: 'forever_loop',
+                    blockType: BlockType.CONDITIONAL,
+                    branchCount: 1,
+                    text: 'forever do: [CONDITION]',
+                    arguments: {
+                        CONDITION: {
+                            type: ArgumentType.STRING
+                        },
+                    }
+                },
+                {
+                    opcode: 'boolean_loop',
                     blockType: BlockType.CONDITIONAL,
                     branchCount: 1,
                     text: 'check then do: [CONDITION]',
@@ -44,9 +55,18 @@ class RobotConditionsBlocks {
         };
     };
 
-    loop (args, util) {
+    forever_loop (args, util) {
+        util.startBranch(1, true);
+        util.yieldTick();        
+        this.runtime.emit('FOREVER_LOOP', {
+            //
+        })
+    }
+
+    boolean_loop (args, util) {
         if (args.CONDITION === false) {
             util.startBranch(1, true);
+            // util.yieldTick();
         };
     };
 
