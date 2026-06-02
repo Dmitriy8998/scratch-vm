@@ -78,61 +78,56 @@ class RobotMovementBlocks {
     };
 
     forward (args) {
-        const myData = `Result: ${args.METERS}`;
-    
-        this.runtime.emit('ROBOT_FORWARD', {
-            msg: myData,
-            meters: args.METERS,
-            time: Date.now()
+        return new Promise((resolve) => {
+            this.runtime.emit('ROBOT_FORWARD', {
+                msg: `Result: ${args.METERS}`,
+                meters: args.METERS,
+                time: Date.now(),
+                done: resolve
+            });
         });
-
-        return;
-    };
+    }
 
     backward (args) {
-        const myData = `Result: ${args.METERS}`;
-    
-        this.runtime.emit('ROBOT_BACKWARD', {
-            msg: myData,
-            meters: args.METERS,
-            time: Date.now()
+        return new Promise((resolve) => {
+            this.runtime.emit('ROBOT_BACKWARD', {
+                msg: `Result: ${args.METERS}`,
+                meters: args.METERS,
+                time: Date.now(),
+                done: resolve
+            });
         });
-
-        return;
     };
 
     degrees_left_90 (args) {
-        const myData = `Result: ${args.TEXT}`;
-
-        this.runtime.emit('ROBOT_ROTATE_LEFT_90', {
-            msg: myData,
-            time: Date.now()
+        return new Promise((resolve) => {
+            this.runtime.emit('ROBOT_ROTATE_LEFT_90', {
+                msg: `Result: ${args.TEXT}`,
+                time: Date.now(),
+                done: resolve
+            });
         });
-
-        return;
     };
 
     degrees_right_90 (args) {
-        const myData = `Result: ${args.TEXT}`;
-
-        this.runtime.emit('ROBOT_ROTATE_RIGHT_90', {
-            msg: myData,
-            time: Date.now()
+        return new Promise((resolve) => {
+            this.runtime.emit('ROBOT_ROTATE_RIGHT_90', {
+                msg: `Result: ${args.TEXT}`,
+                time: Date.now(),
+                done: resolve
+            });
         });
-
-        return;
     };
 
     given_angle (args) {
-        const myData = `Result: ${args.ANGLE}`; 
-
-        this.runtime.emit('ROBOT_ROTATE_GIVEN_ANGLE', {
-            msg: myData,
-            angle: args.ANGLE,
-            time: Date.now()
+        return new Promise((resolve) => {
+            this.runtime.emit('ROBOT_ROTATE_GIVEN_ANGLE', {
+                msg: `Result: ${args.ANGLE}`,
+                angle: args.ANGLE,
+                time: Date.now(),
+                done: resolve
+            });
         });
-
-        return;
     };
 };
 
