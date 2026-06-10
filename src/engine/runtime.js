@@ -181,6 +181,11 @@ class Runtime extends EventEmitter {
         super();
 
         /**
+         * @type {string}
+         */
+        this.currentBlockId = null;
+
+        /**
          * Target management and storage.
          * @type {Array.<!Target>}
          */
@@ -2503,10 +2508,13 @@ class Runtime extends EventEmitter {
      * @param {boolean} isGlowing True to turn on glow; false to turn off.
      */
     glowBlock (blockId, isGlowing) {
+        if ( blockId != null) {
+            this.currentBlockId = blockId
+        }
         if (isGlowing) {
-            this.emit(Runtime.BLOCK_GLOW_ON, {id: blockId});
+            this.emit(Runtime.BLOCK_GLOW_ON, {id:  this.currentBlockId});
         } else {
-            this.emit(Runtime.BLOCK_GLOW_OFF, {id: blockId});
+            this.emit(Runtime.BLOCK_GLOW_OFF, {id:  this.currentBlockId});
         }
     }
 

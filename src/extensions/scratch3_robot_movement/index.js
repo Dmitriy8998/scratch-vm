@@ -86,7 +86,7 @@ class RobotMovementBlocks {
                 done: resolve
             });
         });
-    }
+    };
 
     backward (args) {
         return new Promise((resolve) => {

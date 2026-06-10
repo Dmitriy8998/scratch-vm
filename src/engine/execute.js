@@ -514,6 +514,7 @@ const execute = function (sequencer, thread) {
 
         // If it's a promise, wait until promise resolves.
         if (isPromise(primitiveReportedValue)) {
+            runtime.glowBlock(ops[i].id, true);
             handlePromise(primitiveReportedValue, sequencer, thread, opCached, lastOperation);
 
             // Store the already reported values. They will be thawed into the
