@@ -508,13 +508,18 @@ const execute = function (sequencer, thread) {
             thread.requestScriptGlowInFrame = true;
         }
 
+        // Disable glow mode for blocks of a particular type.
+        // Disabling is performed by the block type prefix.
+        const isReporter = ops[i].opcode.startsWith("Reporter")
+        const isLoop = ops[i].opcode.startsWith("Loop")
+        if (!isReporter && !isLoop) runtime.glowBlock(ops[i].id, true);
+
         // Inputs are set during previous steps in the loop.
 
         const primitiveReportedValue = blockFunction(argValues, blockUtility);
 
         // If it's a promise, wait until promise resolves.
         if (isPromise(primitiveReportedValue)) {
-            runtime.glowBlock(ops[i].id, true);
             handlePromise(primitiveReportedValue, sequencer, thread, opCached, lastOperation);
 
             // Store the already reported values. They will be thawed into the

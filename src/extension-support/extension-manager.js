@@ -27,6 +27,7 @@ const builtinExtensions = {
 
     // Custom extentions
     robot_communication: () => require('../extensions/scratch3_robot_communication'),
+    robot_loops: () => require('../extensions/scratch3_robot_loops'),
     robot_conditions: () => require('../extensions/scratch3_robot_conditions'),
     robot_movement: () => require('../extensions/scratch3_robot_movement'),
     robot_reporters: () => require('../extensions/scratch3_robot_reporters'),
