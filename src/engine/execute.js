@@ -512,7 +512,15 @@ const execute = function (sequencer, thread) {
         // Disabling is performed by the block type prefix.
         const isReporter = ops[i].opcode.startsWith("Reporter")
         const isLoop = ops[i].opcode.startsWith("Loop")
-        if (!isReporter && !isLoop) runtime.glowBlock(ops[i].id, true);
+        
+        if (!isReporter && !isLoop) {
+        // Turn off the previous block of this thread when a new one starts
+            if (thread.lastGlowId && thread.lastGlowId !== ops[i].id) {
+                runtime.glowBlock(thread.lastGlowId, false);
+            }
+            thread.lastGlowId = ops[i].id;
+            runtime.glowBlock(ops[i].id, true);
+        }
 
         // Inputs are set during previous steps in the loop.
 
