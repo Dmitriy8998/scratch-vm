@@ -63,8 +63,13 @@ class RobotConditionsBlocks {
     }
 
     while (args, util) {
+        console.log('args.CONDITION', args.CONDITION);
         if (!isNaN(Number(args.CONDITION))) {
-            util.stackFrame.i ??= Number(args.CONDITION);
+            if (util.stackFrame.last !== args.CONDITION) {
+                util.stackFrame.last = args.CONDITION;
+                util.stackFrame.i = Number(args.CONDITION);
+            }
+            
             if (util.stackFrame.i-- > 0) {
                 util.startBranch(1, true);
                 util.yieldTick();
