@@ -43,9 +43,9 @@ class RobotMovementBlocks {
                 {
                     opcode: 'degrees_left_90',
                     blockType:  BlockType.COMMAND,
-                    text: 'Robot_block [TEXT]',
+                    text: 'Robot_block [ANGLE]',
                     arguments: {
-                        TEXT: {
+                        ANGLE: {
                             type: ArgumentType.NUMBER,
                             defaultValue: 'Rotate left 90 degrees!'
                         }
@@ -54,9 +54,9 @@ class RobotMovementBlocks {
                 {
                     opcode: 'degrees_right_90',
                     blockType:  BlockType.COMMAND,
-                    text: 'Robot_block [TEXT]',
+                    text: 'Robot_block [ANGLE]',
                     arguments: {
-                        TEXT: {
+                        ANGLE: {
                             type: ArgumentType.NUMBER,
                             defaultValue: 'Rotate right 90 degrees!'
                         }
@@ -70,6 +70,17 @@ class RobotMovementBlocks {
                         ANGLE: {
                             type: ArgumentType.NUMBER,
                             defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'goal_pose',
+                    blockType:  BlockType.COMMAND,
+                    text: 'Robot_block [LABEL]',
+                    arguments: {
+                        LABEL: {
+                            type: ArgumentType.STRING,
+                            defaultValue: ''
                         }
                     }
                 }
@@ -139,6 +150,17 @@ class RobotMovementBlocks {
             this.runtime.emit('ROBOT_ROTATE_GIVEN_ANGLE', {
                 msg: `Result: ${args.ANGLE}`,
                 angle: args.ANGLE,
+                time: Date.now(),
+                done: resolve
+            });
+        });
+    };
+
+    goal_pose (args) {
+        return new Promise((resolve) => {
+            this.runtime.emit('ROBOT_GOAL_POSE', {
+                msg: `Result: ${args.LABEL}`,
+                label: args.LABEL,
                 time: Date.now(),
                 done: resolve
             });
