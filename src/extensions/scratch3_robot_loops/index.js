@@ -99,11 +99,7 @@ class RobotConditionsBlocks {
                 util.yieldTick();
             }
         };
-        if (args.CONDITION === true) {
-            util.startBranch(1, true);
-            util.yieldTick();
-        };
-        if (args.CONDITION === 'true') {
+        if (args.CONDITION === true || args.CONDITION === "true") {
             util.startBranch(1, true);
             util.yieldTick();
         };

@@ -510,8 +510,8 @@ const execute = function (sequencer, thread) {
 
         // Disable glow mode for blocks of a particular type.
         // Disabling is performed by the block type prefix.
-        const isReporter = ops[i].opcode.startsWith("Reporter")
-        const isLoop = ops[i].opcode.startsWith("Loop")
+        const isReporter = ops[i].opcode.startsWith("Reporter");
+        const isLoop = ops[i].opcode.startsWith("Loop");
         
         if (!isReporter && !isLoop) {
         // Turn off the previous block of this thread when a new one starts
@@ -521,9 +521,14 @@ const execute = function (sequencer, thread) {
             thread.lastGlowId = ops[i].id;
             runtime.glowBlock(ops[i].id, true);
         }
-
+        // Turning off highlighting in nested loops
+        if (isLoop) {
+            if (thread.lastGlowId && thread.lastGlowId !== ops[i].id) {
+                runtime.glowBlock(thread.lastGlowId, false);
+            }          
+        }
+        
         // Inputs are set during previous steps in the loop.
-
         const primitiveReportedValue = blockFunction(argValues, blockUtility);
 
         // If it's a promise, wait until promise resolves.
