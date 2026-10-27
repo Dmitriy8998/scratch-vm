@@ -57,8 +57,8 @@ class RobotConditionsBlocks {
 
     forever (args, util) {
         const blocks = util.target.blocks;
-        const cur = blocks.getBlock(util.thread.peekStack());
-        const cSlot = cur.inputs.SUBSTACK;
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
 
         if (!cSlot || !cSlot.block) return; 
         
@@ -70,10 +70,10 @@ class RobotConditionsBlocks {
 
     while (args, util) {
         const blocks = util.target.blocks;
-        const cur = blocks.getBlock(util.thread.peekStack());
-        const cSlot = cur.inputs.SUBSTACK;
-        const input = cur.inputs.CONDITION;
-        const child = input && blocks.getBlock(input.block);
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
+        const inputSlot = currentBlock.inputs.CONDITION;
+        const child = inputSlot && blocks.getBlock(inputSlot.block);
 
         if (!cSlot || !cSlot.block) return;
 

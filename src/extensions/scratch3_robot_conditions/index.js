@@ -34,21 +34,10 @@ class RobotConditionsBlocks {
     };
 
     fulfillment_wait (args, util) {
-        if (args.CONDITION === true || args.CONDITION === false) {
-            if (args.CONDITION === false) {
-                util.yieldTick();
-            }
-        }
-        if (args.CONDITION === 'true' || args.CONDITION === 'false') {
-            if (args.CONDITION === 'false') {
-                util.yieldTick();
-            }
+        if (args.CONDITION === false || args.CONDITION === 'false') {
+            util.yieldTick();
         } else {
             const value = Number(args.CONDITION);
-            if (util.stackFrame.last !== args.CONDITION) {
-                util.stackFrame.last = args.CONDITION;
-                util.stackFrame.timer = undefined;
-            }
             if (util.stackTimerNeedsInit()) {
                 const duration = Math.max(0, 1000 * Number(value));
                 util.startStackTimer(duration);
