@@ -56,6 +56,12 @@ class RobotConditionsBlocks {
     };
 
     forever (args, util) {
+        const blocks = util.target.blocks;
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
+
+        if (!cSlot || !cSlot.block) return; 
+        
         util.startBranch(1, true);
         util.yieldTick();        
         this.runtime.emit('FOREVER_LOOP', {
@@ -63,8 +69,37 @@ class RobotConditionsBlocks {
     }
 
     while (args, util) {
-        console.log('bool_', args.CONDITION)
-        if (args.CONDITION === false) {
+        const blocks = util.target.blocks;
+        const currentBlock = blocks.getBlock(util.thread.peekStack());
+        const cSlot = currentBlock.inputs.SUBSTACK;
+        const inputSlot = currentBlock.inputs.CONDITION;
+        const child = inputSlot && blocks.getBlock(inputSlot.block);
+
+        if (!cSlot || !cSlot.block) return;
+
+        if (child.opcode === 'Reporter_get_random_number') {
+            if (util.stackFrame.randCount === undefined) {
+                util.stackFrame.randCount = Number(args.CONDITION);
+            }
+            if (util.stackFrame.randCount-- > 0) {
+                util.startBranch(1, true);
+                util.yieldTick();
+            }
+            return;
+        }
+
+        if (!isNaN(Number(args.CONDITION))) {
+            if (util.stackFrame.last !== args.CONDITION) {
+                util.stackFrame.last = args.CONDITION;
+                util.stackFrame.i = Number(args.CONDITION);
+            }
+            
+            if (util.stackFrame.i-- > 0) {
+                util.startBranch(1, true);
+                util.yieldTick();
+            }
+        };
+        if (args.CONDITION === true || args.CONDITION === "true") {
             util.startBranch(1, true);
             util.yieldTick();
         };

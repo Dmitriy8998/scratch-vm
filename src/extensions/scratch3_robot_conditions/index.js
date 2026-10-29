@@ -33,15 +33,9 @@ class RobotConditionsBlocks {
         };
     };
 
-    // TODO: refactor this!!!
     fulfillment_wait (args, util) {
-        if (args.CONDITION === true || args.CONDITION === false) {
-            if (args.CONDITION === false) {
-                util.yieldTick();
-            }
-            if (args.CONDITION === true) {
-                this.runtime.glowBlock(null, false);
-            }
+        if (args.CONDITION === false || args.CONDITION === 'false') {
+            util.yieldTick();
         } else {
             const value = Number(args.CONDITION);
             if (util.stackTimerNeedsInit()) {
@@ -52,10 +46,7 @@ class RobotConditionsBlocks {
             } else if (!util.stackTimerFinished()) {
                 util.yield();
             }
-        }
-        if (args.CONDITION === '...') {
-            this.runtime.glowBlock(null, false);
-        }
+        };
     };
 };
 

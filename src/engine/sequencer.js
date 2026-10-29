@@ -184,6 +184,11 @@ class Sequencer {
 
             // Did the null follow a hat block?
             if (thread.stack.length === 0) {
+                // 1 - STOP TRED
+                if (thread.lastGlowId) {
+                    this.runtime.glowBlock(thread.lastGlowId, false);
+                    thread.lastGlowId = null;
+                }
                 thread.status = Thread.STATUS_DONE;
                 return;
             }
@@ -239,7 +244,13 @@ class Sequencer {
             while (!thread.peekStack()) {
                 thread.popStack();
 
+                // 2 - STOP TRED
                 if (thread.stack.length === 0) {
+                    // Turn off the backlight when the stream ends.
+                    if (thread.lastGlowId) {
+                        this.runtime.glowBlock(thread.lastGlowId, false);
+                        thread.lastGlowId = null;
+                    }
                     // No more stack to run!
                     thread.status = Thread.STATUS_DONE;
                     return;
@@ -351,6 +362,10 @@ class Sequencer {
      * @param {!Thread} thread Thread object to retire.
      */
     retireThread (thread) {
+        if (thread.lastGlowId) {
+            this.runtime.glowBlock(thread.lastGlowId, false);
+            thread.lastGlowId = null;
+        }
         thread.stack = [];
         thread.stackFrame = [];
         thread.requestScriptGlowInFrame = false;

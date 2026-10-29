@@ -2276,6 +2276,15 @@ class Runtime extends EventEmitter {
         if (this.sequencer.activeThread !== null) {
             this._stopThread(this.sequencer.activeThread);
         }
+
+        // Turn off glow for every remaining thread before dropping them.
+        this.threads.forEach(thread => {
+            if (thread.lastGlowId) {
+                this.glowBlock(thread.lastGlowId, false);
+                thread.lastGlowId = null;
+            }
+        });
+
         // Remove all remaining threads from executing in the next tick.
         this.threads = [];
 

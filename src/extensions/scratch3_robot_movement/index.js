@@ -24,40 +24,40 @@ class RobotMovementBlocks {
                     text: 'Robot_block [METERS]',
                     arguments: {
                         METERS: {
-                            type: ArgumentType.STRING,
+                            type: ArgumentType.NUMBER,
                             defaultValue: 0
                         }
                     }
                 },
                 {
                     opcode: 'backward',
-                    blockType:  BlockType.BOOLEAN,
+                    blockType:  BlockType.COMMAND,
                     text: 'Robot_block [METERS]',
                     arguments: {
                         METERS: {
-                            type: ArgumentType.STRING,
+                            type: ArgumentType.NUMBER,
                             defaultValue: 0
                         }
                     }
                 },
                 {
                     opcode: 'degrees_left_90',
-                    blockType:  BlockType.BOOLEAN,
-                    text: 'Robot_block [TEXT]',
+                    blockType:  BlockType.COMMAND,
+                    text: 'Robot_block [ANGLE]',
                     arguments: {
-                        TEXT: {
-                            type: ArgumentType.STRING,
+                        ANGLE: {
+                            type: ArgumentType.NUMBER,
                             defaultValue: 'Rotate left 90 degrees!'
                         }
                     }
                 },
                 {
                     opcode: 'degrees_right_90',
-                    blockType:  BlockType.REPORTER,
-                    text: 'Robot_block [TEXT]',
+                    blockType:  BlockType.COMMAND,
+                    text: 'Robot_block [ANGLE]',
                     arguments: {
-                        TEXT: {
-                            type: ArgumentType.STRING,
+                        ANGLE: {
+                            type: ArgumentType.NUMBER,
                             defaultValue: 'Rotate right 90 degrees!'
                         }
                     }
@@ -72,16 +72,32 @@ class RobotMovementBlocks {
                             defaultValue: 0
                         }
                     }
+                },
+                {
+                    opcode: 'goal_pose',
+                    blockType:  BlockType.COMMAND,
+                    text: 'Robot_block [LABEL]',
+                    arguments: {
+                        LABEL: {
+                            type: ArgumentType.STRING,
+                            defaultValue: ''
+                        }
+                    }
                 }
             ]
         };
     };
 
     forward (args) {
+        if (typeof args.METERS === 'boolean')
+            return;
+        if (isNaN(Number(args.METERS)))
+            return;
+
         return new Promise((resolve) => {
             this.runtime.emit('ROBOT_FORWARD', {
-                msg: `Result: ${args.METERS}`,
-                meters: args.METERS,
+                msg: `Result: ${Number(args.METERS)}`,
+                meters: Number(args.METERS),
                 time: Date.now(),
                 done: resolve
             });
@@ -89,10 +105,15 @@ class RobotMovementBlocks {
     };
 
     backward (args) {
+        if (typeof args.METERS === 'boolean')
+            return;
+        if (isNaN(Number(args.METERS)))
+            return;
+
         return new Promise((resolve) => {
             this.runtime.emit('ROBOT_BACKWARD', {
-                msg: `Result: ${args.METERS}`,
-                meters: args.METERS,
+                msg: `Result: ${Number(args.METERS)}`,
+                meters: Number(args.METERS),
                 time: Date.now(),
                 done: resolve
             });
@@ -120,10 +141,26 @@ class RobotMovementBlocks {
     };
 
     given_angle (args) {
+        if (typeof args.ANGLE === 'boolean')
+            return;
+        if (isNaN(Number(args.ANGLE)))
+            return;
+
         return new Promise((resolve) => {
             this.runtime.emit('ROBOT_ROTATE_GIVEN_ANGLE', {
                 msg: `Result: ${args.ANGLE}`,
                 angle: args.ANGLE,
+                time: Date.now(),
+                done: resolve
+            });
+        });
+    };
+
+    goal_pose (args) {
+        return new Promise((resolve) => {
+            this.runtime.emit('ROBOT_GOAL_POSE', {
+                msg: `Result: ${args.LABEL}`,
+                label: args.LABEL,
                 time: Date.now(),
                 done: resolve
             });
